@@ -20,6 +20,10 @@ function ClientManager() {
 
 ClientManager.UID_LENGTH = 6;
 
+ClientManager.create = function() {
+  return new ClientManager();
+};
+
 ClientManager.prototype.generateUID = function() {
   var uid = Util.generateUID(ClientManager.UID_LENGTH);
   while (this.clients.has(uid)) {
@@ -46,14 +50,14 @@ ClientManager.prototype.getDeviceType = function(uid) {
   return this.deviceTypes.get(uid);
 };
 
-ClientManager.prototype.remove = function(uid) {
-  this.sockets.remove(uid);
-  this.deviceTypes.remove(uid);
-};
-
 ClientManager.prototype.isPairable = function(uid1, uid2) {
   return this.getDeviceType(uid1) == Constants.MOBILE &&
     this.getDeviceType(uid2) == Constants.COMPUTER;
+};
+
+ClientManager.prototype.remove = function(uid) {
+  this.sockets.remove(uid);
+  this.deviceTypes.remove(uid);
 };
 
 module.exports = ClientManager;

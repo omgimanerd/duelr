@@ -18,21 +18,22 @@ process.argv.forEach(function(value, index, array) {
 // Dependencies.
 var express = require("express");
 var http = require("http");
+var MobileDetect = require('mobile-detect')
 var morgan = require("morgan");
 var socketIO = require("socket.io");
 var swig = require("swig");
 
-var MobileDetect = require('mobile-detect')
-
 var ClientManager = require("./server/ClientManager");
 var Constants = require("./shared/Constants");
+var Game = require("./server/Game");
 
 // Initialization.
 var app = express();
 var server = http.Server(app);
 var io = socketIO(server);
 
-var clientManager = new ClientManager();
+var clientManager = ClientManager.create();
+var game = Game.create();
 
 app.engine("html", swig.renderFile);
 
@@ -110,34 +111,16 @@ io.on("connection", function(socket) {
     }
   });
 
-<<<<<<< HEAD
-  socket.on("link-devices", function(data) {
-    clientManager.linkClients(data.phoneDeviceUid, data.computerDeviceUid);
-    console.log("Linked phone " + data.phoneDeviceUid + " to computer " + data.computerDeviceUid);
-  });
-
-  socket.on("phone-accel", function(data) {
-    var connectedComputerUid = clientManager.getPhone(
-      data.uid).paired_computer;
-    var computerSocket = clientManager.getComputer(connectedComputer).socket;
-    computerSocket.emit("accel-data", data);
-  });
-
-=======
->>>>>>> d4318a8afa3a67f47db718ee9f6067ed066994f3
   // When a player disconnects, remove them from the game.
   socket.on("disconnect", function() {
     clientManager.remove(clientManager.getUid(socket));
+
   });
 });
 
 // Server side game loop, runs at 60Hz and sends out update packets to all
 // clients every tick.
 setInterval(function() {
-<<<<<<< HEAD
-  // console.log(clientManager.computers);
-=======
->>>>>>> d4318a8afa3a67f47db718ee9f6067ed066994f3
 }, FRAME_RATE);
 
 // Starts the server.

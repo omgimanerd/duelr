@@ -5,6 +5,8 @@
 
 var HashMap = require("hashmap");
 
+var Player = require("./Player");
+
 /**
  * Constructor for the server side Game class.
  * Instantiates the data structures to track all the objects in the game.
@@ -15,21 +17,26 @@ function Game(player1, player2) {
   this.player2 = null;
 }
 
+Game.create = function() {
+  return new Game(null, null);
+};
+
 Game.prototype.isFull = function() {
   return this.player1 != null && this.player2 != null;
 };
 
+Game.prototype.hasConnectedSocket = function(socket) {
+  return this.player1.hasConnectedSocket(socket) ||
+    this.player2.hasConnectedSocket(socket);
+};
+
 /**
- * Removes the player with the given socket Id.
- * @param {string} The socket ID of the player to remove.
  */
-Game.prototype.removePlayer = function(id) {
-  if (this.clients.has(id)) {
-    this.clients.remove(id);
-  }
-  if (this.players.has(id)) {
-    var player = this.players.get(id);
-    this.players.remove(id);
+Game.prototype.attemptRemovePlayer = function(socket) {
+  if (this.player1.hasConnectedSocket(socket)) {
+    this.player1 = null;
+  } else if (this.player2.hasConnectedSocket(socket)) {
+    this.player2 = null;
   }
 };
 
@@ -41,14 +48,9 @@ Game.prototype.updatePlayer = function(id) {
 };
 
 /**
- * Returns an array of the currently connected players.
- * @return {Array.<Player>}
- */
-Game.prototype.getPlayers = function() {
-};
-
-/**
  * Updates the states of all the players in all active games.
  */
 Game.prototype.update = function() {
 };
+
+module.exports = Game;

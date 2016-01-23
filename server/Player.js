@@ -7,4 +7,8 @@ function Player(phoneSocket, computerSocket) {
   this.computerSocket = computerSocket;
 }
 
+Player.prototype.hasConnectedSocket = function(socket) {
+  return this.phoneSocket == socket || this.computerSocket == socket;
+};
+
 module.exports = Player;
