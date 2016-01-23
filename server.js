@@ -81,6 +81,7 @@ io.on("connection", function(socket) {
 
   socket.on("link-devices", function(data) {
     clientManager.linkClients(data.phoneDeviceUid, data.computerDeviceUid);
+    console.log("Linked phone " + data.phoneDeviceUid + " to computer " + data.computerDeviceUid);
   });
 
   socket.on("phone-accel", function(data) {
@@ -98,7 +99,7 @@ io.on("connection", function(socket) {
 // Server side game loop, runs at 60Hz and sends out update packets to all
 // clients every tick.
 setInterval(function() {
-  console.log(clientManager.computers);
+  // console.log(clientManager.computers);
 }, FRAME_RATE);
 
 // Starts the server.
