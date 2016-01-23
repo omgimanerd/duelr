@@ -63,9 +63,7 @@ io.on('connection', function(socket) {
     });
     socket.emit('chat-server-to-clients', {
       name: CHAT_TAG,
-      message: 'Welcome ' + data.name + '. Use WASD to move and click to ' +
-          'shoot! Move around to acquire praesidia and use it to build ' +
-          'turrets and other fortifications. Good luck!',
+      message: 'Welcome ' + data.name,
       isNotification: true
     });
  });
