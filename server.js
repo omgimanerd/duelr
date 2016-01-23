@@ -10,8 +10,7 @@ var IP = process.env.IP || 'localhost';
 var PORT_NUMBER = process.env.PORT || 5000;
 
 process.argv.forEach(function(value, index, array) {
-  if (value == '--dev' || value == '-dev' ||
-      value == '--development' || value == '-development') {
+  if (value == '--dev' || value == '--development') {
     DEV_MODE = true;
   }
 });
@@ -54,18 +53,17 @@ app.get('/', function(request, response) {
 io.on('connection', function(socket) {
   // When a new player joins, the server adds a new player to the game.
   socket.on('new-player', function(data) {
-    game.addNewPlayer(data.name, socket);
- });
+    socket.emit('uid',
+  });
 
   // Update the internal object states every time a player sends an intent
   // packet.
   socket.on('player-action', function(data) {
-    game.updatePlayerOnInput();
+    io.sockets.emit('accel-data', data);
   });
 
   // When a player disconnects, remove them from the game.
   socket.on('disconnect', function() {
-    var name = game.removePlayer(socket.id);
   });
 });
 
