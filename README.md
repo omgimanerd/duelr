@@ -47,7 +47,7 @@
 
 # Creators:
   - Alvin Lin (omgimanerd)
-  - Kenneth Li (noobbyte)
+  - Justin He (justinhe16)
   - John Qian (xyzrr)
 
 &copy; 2015 Penumbra Games
