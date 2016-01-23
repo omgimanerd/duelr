@@ -188,3 +188,94 @@ Util.choiceArray = function(array) {
 try {
   module.exports = Util;
 } catch (err) {}
+
+
+Util.dot = function(x1,y1,z1,x2,y2,z2){
+  return (x1 * x2 + y1 * y2 + z1 * z2);
+}
+
+Util.getDistanceOfTwoLinesin3D = function(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4) {
+  var EPS = 0.00000001;
+
+  var delta21x = x2 - x1;
+  var delta21y = y2 - y1;
+  var delta21z = z2 - z1;
+
+  var delta43x = x4 - x3;
+  var delta43y = y4 - y3;
+  var delta43z = z4 - z3;
+
+  var delta13x = x1 - x3;
+  var delta13y = y1 - y3;
+  var delta13z = z1 - z3;
+
+  var a = Util.dot(delta21x, delta21y, delta21z, delta21x, delta21y, delta21z);
+  var b = Util.dot(delta21x, delta21y, delta21z, delta43x, delta43y, delta43z);
+  var c = Util.dot(delta43x, delta43y, delta43z, delta43x, delta43y, delta43z);
+  var d = Util.dot(delta21x, delta21y, delta21z, delta13x, delta13y, delta13z);
+  var e = Util.dot(delta43x, delta43y, delta43z, delta13x, delta13y, delta13z);
+  var D = a * c - b * b;
+
+  var sc, sN, sD = D;
+  var tc, tN, tD = D;
+
+  if (D < EPS) {
+    sN = 0.0;
+    sD = 1.0;
+    tN = e;
+    tD = c;
+  } else {
+    sN = (b * e - c * d);
+    tN = (a * e - b * d);
+    if (sN < 0.0) {
+      sN = 0.0;
+      tN = e;
+      tD = c;
+    } else if (sN > sD) {
+      sN = sD;
+      tN = e + b;
+      tD = c;
+    }
+  }
+ 
+  if (tN < 0.0) {
+    tN = 0.0;
+    if (-d < 0.0){
+      sN = 0.0;
+    } else if (-d > a){
+      sN = sD;
+    } else {
+      sN = -d;
+      sD = a;
+    }
+  }
+  else if (tN > tD) {
+    tN = tD;
+    if ((-d + b) < 0.0) {
+      sN = 0;
+    } else if ((-d + b) > a) {
+      sN = sD;
+    } else {
+      sN = (-d + b);
+      sD = a;
+    }
+  }
+
+  if (Math.abs(sN) < EPS) { 
+    sc = 0.0;
+  } else {
+    sc = sN / sD;
+  }
+
+  if (Math.abs(tN) < EPS) {
+    tc = 0.0;
+  } else {
+    tc = tN / tD;
+  }
+
+  var dPx = delta13x + (sc * delta21x) - (tc * delta43x);
+  var dPy = delta13y + (sc * delta21y) - (tc * delta43y);
+  var dPz = delta13z + (sc * delta21z) - (tc * delta43z);
+ 
+  return Math.sqrt(Util.dot(dPx, dPy, dPz, dPx, dPy, dPz));
+}
