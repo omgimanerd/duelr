@@ -1,0 +1,60 @@
+<!--
+Homepage and testing braindump for 3D game.
+Author: Alvin Lin (alvin.lin.dev@gmail.com)
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet'
+          href='/static/dist/minified.css' />
+
+    <script src='/socket.io/socket.io.js'>
+    </script>
+    <script src='/bower_components/jquery/dist/jquery.min.js'>
+    </script>
+  </head>
+  <body>
+    <div id='name-prompt-overlay'>
+      <div id='name-prompt-container'>
+        <form id='name-prompt-form'>
+          <input type='text' id='name-prompt-entry'
+                 placeholder='Nickname' autocomplete='off' />
+          <input type='submit' id='name-prompt-submit'
+                 value='Play'>
+        </form>
+      </div>
+    </div>
+    <div class='container'>
+      <h1>
+        Block Wars
+      </h1>
+      <table>
+        <tr>
+          <td>
+            Game stuff
+          </td>
+          <td>
+            <div id='game-container'>
+              <div id='game-pause-screen'>
+                <h1>
+                  Paused
+                </h1>
+                <button id='game-resume'>
+                  Resume
+                </button>
+              </div>
+            </div>
+          </td>
+          <td>
+            Chat
+          </td>
+        </tr>
+      </table>
+      <h2>
+        Please allow the site to disable your mouse cursor for maximum
+        enjoyment of this game.
+      </h2>
+    </div>
+  </body>
+</html>
