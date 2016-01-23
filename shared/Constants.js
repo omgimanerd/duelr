@@ -14,6 +14,9 @@ function Constants() {
 
 Constants.TAU = 2 * Math.PI;
 
+Constants.MOBILE = "mobile";
+Constants.COMPUTER = "computer";
+
 try {
   module.exports = Constants;
 } catch (err) {}

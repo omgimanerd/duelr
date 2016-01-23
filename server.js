@@ -25,6 +25,7 @@ var swig = require("swig");
 var MobileDetect = require('mobile-detect')
 
 var ClientManager = require("./server/ClientManager");
+var Constants = require("./shared/Constants");
 
 // Initialization.
 var app = express();
@@ -61,15 +62,21 @@ app.get("/", function(request, response) {
 io.on("connection", function(socket) {
   // When a new player joins, the server adds a new player to the game.
   socket.on("new-device", function(data) {
-    var uid = "";
-    if (data.deviceType == "phone") {
-      uid = clientManager.addClient(socket);
+    if (clientManager.hasOpenConnection(data.deviceType)) {
+      var uid = "";
+      if (data.deviceType == Constants.MOBILE) {
+        uid = clientManager.addPhone(socket);
+      } else {
+        uid = clientManager.addComputer(socket);
+      }
+      socket.emit("new-device-response", {
+        uid: uid
+      });
     } else {
-      uid = clientManager.addComputer(socket);
+      socket.emit("new-device-response", {
+        message: "No open connection available!"
+      });
     }
-    socket.emit("uid", {
-      uid: uid
-    });
   });
 
   socket.on("link-devices", function(data) {
@@ -91,6 +98,7 @@ io.on("connection", function(socket) {
 // Server side game loop, runs at 60Hz and sends out update packets to all
 // clients every tick.
 setInterval(function() {
+  console.log(clientManager.computers);
 }, FRAME_RATE);
 
 // Starts the server.

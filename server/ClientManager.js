@@ -33,6 +33,7 @@ ClientManager.prototype.addPhone = function(socket) {
     socket: socket,
     paired_computer: null
   });
+  return uid;
 };
 
 ClientManager.prototype.addComputer = function(socket) {
@@ -41,11 +42,39 @@ ClientManager.prototype.addComputer = function(socket) {
     socket: socket,
     paired_phone: null
   });
+  return uid;
 };
 
 ClientManager.prototype.removePhone = function(uid) {
   if (this.phones.has(uid)) {
+    var phone = this.phones.get(uid);
+    this.computers.remove(phone.paired_computer);
     this.phones.remove(uid);
+  }
+};
+
+ClientManager.prototype.removeComputer = function(uid) {
+  if (this.computers.has(uid)) {
+    var computer = this.computers.get(uid);
+    this.phones.remove(computer.paired_phone);
+    this.computers.remove(uid);
+  }
+};
+
+ClientManager.prototype.removeSocket = function(socket) {
+  var phones = this.phones.keys();
+  var computers = this.computers.keys();
+  for (var i = 0; i < phones.length; ++i) {
+    if (this.phones.get(phones[i]).socket == socket) {
+      this.phones.remove(phones[i]);
+      break;
+    }
+  }
+  for (var i = 0; i < computers.length; ++i) {
+    if (this.computers.get(computers[i]).socket == socket) {
+      this.computers.remove(computers[i]);
+      break;
+    }
   }
 };
 
@@ -57,6 +86,12 @@ ClientManager.prototype.getComputer = function(uid) {
   return this.computers.get(uid);
 };
 
+ClientManager.prototype.hasOpenConnection = function(deviceType) {
+  if (deviceType == "phone") {
+    return this.phones.values().length < 2;
+  }
+  return this.computers.values().length < 2;
+};
 
 ClientManager.prototype.linkClients = function(phoneDeviceUid,
                                                computerDeviceUid) {
