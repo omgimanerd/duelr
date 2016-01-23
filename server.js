@@ -22,7 +22,7 @@ var morgan = require("morgan");
 var socketIO = require("socket.io");
 var swig = require("swig");
 
-var ClientManager = require("./ClientManager");
+var ClientManager = require("./server/ClientManager");
 
 // Initialization.
 var app = express();
