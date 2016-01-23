@@ -55,42 +55,17 @@ io.on('connection', function(socket) {
   // When a new player joins, the server adds a new player to the game.
   socket.on('new-player', function(data) {
     game.addNewPlayer(data.name, socket);
-    socket.emit('received-new-player');
-    io.sockets.emit('chat-server-to-clients', {
-      name: CHAT_TAG,
-      message: data.name + ' has joined the game.',
-      isNotification: true
-    });
-    socket.emit('chat-server-to-clients', {
-      name: CHAT_TAG,
-      message: 'Welcome ' + data.name,
-      isNotification: true
-    });
  });
 
   // Update the internal object states every time a player sends an intent
   // packet.
   socket.on('player-action', function(data) {
-    game.updatePlayerOnInput(socket.id, data.keyboardState, data.orientation,
-                             data.shot, data.build, data.timestamp);
+    game.updatePlayerOnInput();
   });
-
-  socket.on('chat-client-to-server', function(data) {
-    io.sockets.emit('chat-server-to-clients', {
-      name: game.getPlayerNameBySocketId(socket.id),
-      message: data
-    });
-  });
-
 
   // When a player disconnects, remove them from the game.
   socket.on('disconnect', function() {
     var name = game.removePlayer(socket.id);
-    io.sockets.emit('chat-server-to-clients', {
-      name: CHAT_TAG,
-      message: name + ' has left the game.',
-      isNotification: true
-    });
   });
 });
 
@@ -103,6 +78,6 @@ setInterval(function() {
 server.listen(PORT_NUMBER, function() {
   console.log('Starting server on port ' + PORT_NUMBER);
   if (DEV_MODE) {
-    console.log('DEVELOPMENT MODE ENABLED: SERVING UNCOMPILED JAVASCRIPT!');
+    console.log('DEVELOPMENT MODE ENABLED');
   }
 });
