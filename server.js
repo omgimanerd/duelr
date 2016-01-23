@@ -48,11 +48,12 @@ app.use("/shared",
         express.static(__dirname + "/shared"));
 
 // Routing
-
 app.get("/", function(request, response) {
+  // Render a different page depending on whether or not the request came
+  // from a phone or a computer.
   var md = new MobileDetect(request.headers["user-agent"]);
   response.render("index.html", {
-    mobile: md.phone()
+    mobile: md.mobile()
   });
 });
 
@@ -96,18 +97,18 @@ io.on("connection", function(socket) {
     } else {
       var newPlayer = new Player(uid, uidToConnectTo);
       var computerSocket = clientManager.getSocket(uidToConnectTo);
+      // Set the event handler on the mobile device's socket so that it
+      // will forward acceleration data to the game.
       socket.on("phone-accel", function(data) {
+        // temporarily forward to the computer.
         computerSocket.emit("accel-data", data);
+      });
+      socket.emit("link-devices-response", {
+        success: true,
+        message: "Successfully linked."
       });
     }
   });
-
-//  socket.on("phone-accel", function(data) {
-//    var connectedComputerUid = clientManager.getPhone(
-//      data.uid).paired_computer;
-//    var computerSocket = clientManager.getComputer(connectedComputer).socket;
-//    computerSocket.emit("accel-data", data);
-//  });
 
   // When a player disconnects, remove them from the game.
   socket.on("disconnect", function() {
@@ -118,7 +119,6 @@ io.on("connection", function(socket) {
 // Server side game loop, runs at 60Hz and sends out update packets to all
 // clients every tick.
 setInterval(function() {
-  console.log(clientManager.computers);
 }, FRAME_RATE);
 
 // Starts the server.
