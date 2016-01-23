@@ -56,7 +56,7 @@ ClientManager.prototype.addClient = function(socket, deviceType) {
   var uid = this.generateUID();
   this.sockets.set(uid, socket);
   this.deviceTypes.set(uid, deviceType);
-  return uid
+  return uid;
 };
 
 /**
