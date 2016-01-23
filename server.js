@@ -22,6 +22,8 @@ var morgan = require("morgan");
 var socketIO = require("socket.io");
 var swig = require("swig");
 
+var MobileDetect = require('mobile-detect')
+
 var ClientManager = require("./server/ClientManager");
 
 // Initialization.
@@ -46,7 +48,9 @@ app.use("/shared",
 
 // Routing
 app.get("/", function(request, response) {
+  var md = new MobileDetect(request.headers["user-agent"]);
   response.render("index.html", {
+    mobile: md.phone(),
     dev_mode: DEV_MODE
   });
 });
