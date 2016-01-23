@@ -12,6 +12,8 @@ function Constants() {
   throw new Error('Constants should not be instantiated!');
 }
 
+Constants.TAU = 2 * Math.PI;
+
 try {
   module.exports = Constants;
 } catch (err) {}
