@@ -48,10 +48,16 @@ app.use("/shared",
         express.static(__dirname + "/shared"));
 
 // Routing
+
 app.get("/", function(request, response) {
   var md = new MobileDetect(request.headers["user-agent"]);
   response.render("index.html", {
-    mobile: md.phone(),
+    mobile: md.phone()
+  });
+});
+
+app.get('/game', function(request, response) {
+  response.render('game.html', {
     dev_mode: DEV_MODE
   });
 });
