@@ -1,11 +1,22 @@
 <html>
-<head>
+  <head>
+
+    <link rel='stylesheet'
+          href='/bower_components/bootstrap/dist/css/bootstrap-theme.min.css' />
+    <link rel='stylesheet'
+          href='/bower_components/bootstrap/dist/css/bootstrap.min.css' />
+    <link rel='stylesheet'
+          href='/static/dist/minified.css' />
+    <link rel='stylesheet'
+          href='https://fonts.googleapis.com/css?family=Geo:400,400italic|EB+Garamond'>
+
     <script src='/socket.io/socket.io.js'>
     </script>
     <script src='/bower_components/jquery/dist/jquery.min.js'>
     </script>
     <script src='/shared/Util.js'></script>
     <script src='/shared/Constants.js'></script>
+
     {% if mobile %}
     <script src='/static/js/mobile.js'></script>
     {% else %}
@@ -20,28 +31,25 @@
       });
     </script>
     {% endif %}
-<script src='/bower_components/jquery/dist/jquery.min.js'></script>
-<script src='/static/js/goodlooks.js'></script>
-<link rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap-theme.min.css' />
-<link rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.min.css' />
-<link rel='stylesheet' href='/static/dist/minified.css' />
-<link href='https://fonts.googleapis.com/css?family=Geo:400,400italic|EB+Garamond' rel='stylesheet' type='text/css'>
-</head>
 
-<body>
-  <div id="opening">
-    <div id="img">
-      <img src="/static/assets/icon.jpg">
+    <script src='/bower_components/jquery/dist/jquery.min.js'></script>
+    <script src='/static/js/goodlooks.js'></script>
+  </head>
+
+  <body>
+    <div id="opening">
+      <div id="img">
+        <img src="/static/assets/icon.jpg">
+      </div>
+      <div id="title">
+        Duelr
+      </div>
+      <div id="paragraph">
+      <p>In order to play, go to duelr.com on your mobile smartphone and enter the code below:</p>
+      </div>
+      <div id="code">
+        123456
+      </div>
     </div>
-    <div id="title">
-      Duelr
-    </div>
-    <div id="paragraph">
-    <p>In order to play, go to duelr.com on your mobile smartphone and enter the code below:</p>
-    </div>
-    <div id="code">
-      123456
-    </div>
-  </div>
-</body>
+  </body>
 </html>
