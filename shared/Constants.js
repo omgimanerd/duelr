@@ -15,7 +15,10 @@ function Constants() {
 Constants.TAU = 2 * Math.PI;
 
 Constants.MOBILE = "mobile";
+
 Constants.COMPUTER = "computer";
+
+Constants.SWORD_LENGTH = 7.5;
 
 try {
   module.exports = Constants;
