@@ -8,7 +8,7 @@ var gulp = require('gulp');
 var autoprefixer = require('gulp-autoprefixer');
 var closureCompiler = require('gulp-closure-compiler');
 var less = require('gulp-less');
-var minifyCss = require('gulp-minify-css');
+var cssnano = require('gulp-cssnano');
 var rename = require('gulp-rename');
 
 gulp.task('default', ['js', 'less']);
@@ -28,7 +28,7 @@ gulp.task('less', function() {
   return gulp.src('./static/less/styles.less')
     .pipe(less({ compress: true}))
     .pipe(autoprefixer())
-    .pipe(minifyCss())
+    .pipe(cssnano())
     .pipe(rename(function(path) {
       path.basename = 'minified';
       path.extname = '.css';

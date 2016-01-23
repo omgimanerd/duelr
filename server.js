@@ -4,7 +4,6 @@
  * @todo Add unit tests!
  */
 
-var CHAT_TAG = '[Obsidio]';
 var DEV_MODE = false;
 var FRAME_RATE = 1000.0 / 60.0;
 var IP = process.env.IP || 'localhost';
@@ -23,8 +22,6 @@ var http = require('http');
 var morgan = require('morgan');
 var socketIO = require('socket.io');
 var swig = require('swig');
-
-var Game = require('./server/Game');
 
 // Initialization.
 var app = express();
