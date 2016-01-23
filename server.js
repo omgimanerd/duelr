@@ -68,36 +68,50 @@ app.get('/game', function(request, response) {
 io.on("connection", function(socket) {
   // When a new player joins, the server adds a new player to the game.
   socket.on("new-device", function(data) {
-    if (clientManager.hasOpenConnection(data.deviceType)) {
-      var uid = "";
-      if (data.deviceType == Constants.MOBILE) {
-        uid = clientManager.addPhone(socket);
-      } else {
-        uid = clientManager.addComputer(socket);
-      }
-      socket.emit("new-device-response", {
-        uid: uid
+    var uid = clientManager.addClient(socket, data.deviceType);
+    socket.emit("new-device-response", {
+      success: true,
+      uid: uid
+    });
+  });
+
+  // This should only be sent by mobile devices.
+  socket.on("link-devices", function(data) {
+    // uid should be the uid of the mobile device from which this packet
+    // originated.
+    var uid = clientManager.getUid(socket);
+    // uidToConnectTo is the uid they are requesting to connect to, which
+    // should be the uid of a computer.
+    var uidToConnectTo = data.uid;
+    if (clientManager.isPairable(uid, uidToConnectTo)) {
+      socket.emit("link-devices-response", {
+        success: false,
+        message: "You must be a mobile device connecting to a computer!"
+      });
+    } else if (game.isFull()) {
+      socket.emit("link-devices-response", {
+        success: false,
+        message: "Too many players, try again later."
       });
     } else {
-      socket.emit("new-device-response", {
-        message: "No open connection available!"
+      var newPlayer = new Player(uid, uidToConnectTo);
+      var computerSocket = clientManager.getSocket(uidToConnectTo);
+      socket.on("phone-accel", function(data) {
+        computerSocket.emit("accel-data", data);
       });
     }
   });
 
-  socket.on("link-devices", function(data) {
-    clientManager.linkClients(data.phoneDeviceUid, data.computerDeviceUid);
-  });
-
-  socket.on("phone-accel", function(data) {
-    var connectedComputerUid = clientManager.getPhone(
-      data.uid).paired_computer;
-    var computerSocket = clientManager.getComputer(connectedComputer).socket;
-    computerSocket.emit("accel-data", data);
-  });
+//  socket.on("phone-accel", function(data) {
+//    var connectedComputerUid = clientManager.getPhone(
+//      data.uid).paired_computer;
+//    var computerSocket = clientManager.getComputer(connectedComputer).socket;
+//    computerSocket.emit("accel-data", data);
+//  });
 
   // When a player disconnects, remove them from the game.
   socket.on("disconnect", function() {
+    clientManager.remove(clientManager.getUid(socket));
   });
 });
 
