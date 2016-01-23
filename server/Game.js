@@ -55,9 +55,9 @@ Game.prototype.matchSocketToPlayer = function(socket) {
 /**
  */
 Game.prototype.attemptRemovePlayer = function(socket) {
-  if (this.player1.hasConnectedSocket(socket)) {
+  if (this.player1 && this.player1.hasConnectedSocket(socket)) {
     this.player1 = null;
-  } else if (this.player2.hasConnectedSocket(socket)) {
+  } else if (this.player2 && this.player2.hasConnectedSocket(socket)) {
     this.player2 = null;
   }
 };
@@ -73,10 +73,12 @@ Game.prototype.sendStateToClients = function() {
     "player1": this.player1,
     "player2": this.player2
   };
-  this.player1.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
-                                        payload);
-  this.player2.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
-                                        payload);
+  if (this.player1 && this.player2) {
+    this.player1.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
+                                          payload);
+    this.player2.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
+                                          payload);
+  }
 };
 
 module.exports = Game;

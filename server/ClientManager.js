@@ -39,7 +39,7 @@ ClientManager.create = function() {
  */
 ClientManager.prototype.generateUID = function() {
   var uid = Util.generateUID(ClientManager.UID_LENGTH);
-  while (this.clients.has(uid)) {
+  while (this.sockets.has(uid)) {
     uid = Util.generateUID(ClientManager.UID_LENGTH);
   }
   return uid;
