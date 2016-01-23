@@ -49,9 +49,16 @@ app.use("/shared",
 
 // Routing
 app.get("/", function(request, response) {
+  // Render a different page depending on whether or not the request came
+  // from a phone or a computer.
   var md = new MobileDetect(request.headers["user-agent"]);
   response.render("index.html", {
-    mobile: md.phone(),
+    mobile: md.mobile()
+  });
+});
+
+app.get('/game', function(request, response) {
+  response.render('game.html', {
     dev_mode: DEV_MODE
   });
 });
@@ -62,23 +69,48 @@ app.get("/", function(request, response) {
 io.on("connection", function(socket) {
   // When a new player joins, the server adds a new player to the game.
   socket.on("new-device", function(data) {
-    if (clientManager.hasOpenConnection(data.deviceType)) {
-      var uid = "";
-      if (data.deviceType == Constants.MOBILE) {
-        uid = clientManager.addPhone(socket);
-      } else {
-        uid = clientManager.addComputer(socket);
-      }
-      socket.emit("new-device-response", {
-        uid: uid
+    var uid = clientManager.addClient(socket, data.deviceType);
+    socket.emit("new-device-response", {
+      success: true,
+      uid: uid
+    });
+  });
+
+  // This should only be sent by mobile devices.
+  socket.on("link-devices", function(data) {
+    // uid should be the uid of the mobile device from which this packet
+    // originated.
+    var uid = clientManager.getUid(socket);
+    // uidToConnectTo is the uid they are requesting to connect to, which
+    // should be the uid of a computer.
+    var uidToConnectTo = data.uid;
+    if (clientManager.isPairable(uid, uidToConnectTo)) {
+      socket.emit("link-devices-response", {
+        success: false,
+        message: "You must be a mobile device connecting to a computer!"
+      });
+    } else if (game.isFull()) {
+      socket.emit("link-devices-response", {
+        success: false,
+        message: "Too many players, try again later."
       });
     } else {
-      socket.emit("new-device-response", {
-        message: "No open connection available!"
+      var newPlayer = new Player(uid, uidToConnectTo);
+      var computerSocket = clientManager.getSocket(uidToConnectTo);
+      // Set the event handler on the mobile device's socket so that it
+      // will forward acceleration data to the game.
+      socket.on("phone-accel", function(data) {
+        // temporarily forward to the computer.
+        computerSocket.emit("accel-data", data);
+      });
+      socket.emit("link-devices-response", {
+        success: true,
+        message: "Successfully linked."
       });
     }
   });
 
+<<<<<<< HEAD
   socket.on("link-devices", function(data) {
     clientManager.linkClients(data.phoneDeviceUid, data.computerDeviceUid);
     console.log("Linked phone " + data.phoneDeviceUid + " to computer " + data.computerDeviceUid);
@@ -91,15 +123,21 @@ io.on("connection", function(socket) {
     computerSocket.emit("accel-data", data);
   });
 
+=======
+>>>>>>> d4318a8afa3a67f47db718ee9f6067ed066994f3
   // When a player disconnects, remove them from the game.
   socket.on("disconnect", function() {
+    clientManager.remove(clientManager.getUid(socket));
   });
 });
 
 // Server side game loop, runs at 60Hz and sends out update packets to all
 // clients every tick.
 setInterval(function() {
+<<<<<<< HEAD
   // console.log(clientManager.computers);
+=======
+>>>>>>> d4318a8afa3a67f47db718ee9f6067ed066994f3
 }, FRAME_RATE);
 
 // Starts the server.
