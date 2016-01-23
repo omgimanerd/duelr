@@ -1,0 +1,24 @@
+{
+  "name": "duelr",
+  "description": "Online sword fighting.",
+  "main": "server.js",
+  "authors": [
+    "Alvin Lin",
+    "Justin He",
+    "John Qian"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/omgimanerd/duelr",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.0"
+  }
+}
