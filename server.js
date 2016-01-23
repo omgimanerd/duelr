@@ -27,7 +27,6 @@ var swig = require('swig');
 var app = express();
 var server = http.Server(app);
 var io = socketIO(server);
-var game = new Game();
 
 app.engine('html', swig.renderFile);
 
@@ -100,8 +99,6 @@ io.on('connection', function(socket) {
 // Server side game loop, runs at 60Hz and sends out update packets to all
 // clients every tick.
 setInterval(function() {
-  game.update();
-  game.sendState();
 }, FRAME_RATE);
 
 // Starts the server.
