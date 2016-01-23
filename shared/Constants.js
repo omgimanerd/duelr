@@ -9,8 +9,12 @@
  * @constructor
  */
 function Constants() {
-  throw new Error('Constants should not be instantiated!');
+  throw new Error("Constants should not be instantiated!");
 }
+
+Constants.ACCELEROMETER_DATA_SOCKET_TAG = "accel_data";
+
+Constants.SERVER_TO_CLIENT_SOCKET_TAG = "server_to_client_socket_tag";
 
 Constants.TAU = 2 * Math.PI;
 

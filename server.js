@@ -96,17 +96,12 @@ io.on("connection", function(socket) {
         message: "Too many players, try again later."
       });
     } else {
-      var newPlayer = new Player(uid, uidToConnectTo);
       var computerSocket = clientManager.getSocket(uidToConnectTo);
-      // Set the event handler on the mobile device's socket so that it
-      // will forward acceleration data to the game.
-      socket.on("phone-accel", function(data) {
-        // temporarily forward to the computer.
-        computerSocket.emit("accel-data", data);
-      });
+      // addPlayer will initialize the player accordingly.
+      game.addPlayer(socket, computerSocket);
       socket.emit("link-devices-response", {
         success: true,
-        message: "Successfully linked."
+        message: "Successfully linked. Joining game."
       });
     }
   });
@@ -114,18 +109,19 @@ io.on("connection", function(socket) {
   // When a player disconnects, remove them from the game.
   socket.on("disconnect", function() {
     clientManager.remove(clientManager.getUid(socket));
-
+    game.attemptRemovePlayer(socket);
   });
 });
 
 // Server side game loop, runs at 60Hz and sends out update packets to all
 // clients every tick.
 setInterval(function() {
+  game.sendStateToClients();
 }, FRAME_RATE);
 
 // Starts the server.
 server.listen(PORT_NUMBER, function() {
-  console.log("Starting server on port " + PORT_NUMBER);
+  console.log("STARTING SERVER ON PORT " + PORT_NUMBER);
   if (DEV_MODE) {
     console.log("DEVELOPMENT MODE ENABLED");
   }
