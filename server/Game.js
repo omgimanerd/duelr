@@ -22,12 +22,12 @@ function Game(player1, player2, player1ComputerSocket, player2ComputerSocket) {
 
 Game.PLAYER1_ORIGIN = {
   x: -150,
-  y: 100,
+  y: -100,
   z: 0
 };
 Game.PLAYER2_ORIGIN = {
   x: 150,
-  y: 100,
+  y: -100,
   z: 0
 };
 

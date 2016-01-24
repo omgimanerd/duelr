@@ -91,18 +91,35 @@ var createWorld = function () {
 };
 
 var createPlayer1 = function (origin) {
-  var geometry = new THREE.BoxGeometry(250, 10, 30);
-  var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+  var geometry = new THREE.BoxGeometry(60, 11, 11);
+  var material = new THREE.MeshLambertMaterial( { color: 0x663300 } );
   var temp = new THREE.Mesh( geometry, material );
-  temp.position.x = 125;
+  temp.position.x = 9;
   temp.position.y = 0;
   temp.position.z = 0;
+
+  var geometryBlade = new THREE.BoxGeometry(250, 3, 20);
+  var materialBlade = new THREE.MeshPhongMaterial( { color:  0xf2f2f2 } );
+  var blade = new THREE.Mesh( geometryBlade, materialBlade );
+  blade.position.x = 146;
+  blade.position.y = 0;
+  blade.position.z = 0;
+
+  var geometryHandle = new THREE.BoxGeometry( 20, 12, 50);
+  var materialHandle = new THREE.MeshBasicMaterial( { color: 0xe5e600 } );
+  var handle = new THREE.Mesh( geometryHandle, materialHandle );
+  handle.position.x = 30;
+  handle.position.y = 0;
+  handle.position.z = 0;
+
 
   sword1 = new THREE.Object3D();
   sword1.position.x = origin.x;
   sword1.position.y = origin.y;
   sword1.position.z = origin.z;
   sword1.add(temp);
+  sword1.add(handle);
+  sword1.add(blade);
 
   sword1.rotation.order = "YZX";
   scene.add( sword1 );
@@ -111,18 +128,34 @@ var createPlayer1 = function (origin) {
 };
 
 var createPlayer2 = function (origin) {
-  var geometry = new THREE.BoxGeometry(250, 10, 30);
-  var material = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
-  var temp2 = new THREE.Mesh( geometry, material );
-  temp2.position.x = 125;
+  var geometry2 = new THREE.BoxGeometry(60, 11, 11);
+  var material2 = new THREE.MeshLambertMaterial( { color: 0x4d79ff } );
+  var temp2 = new THREE.Mesh( geometry2, material2 );
+  temp2.position.x = 9;
   temp2.position.y = 0;
   temp2.position.z = 0;
+
+  var geometryBlade2 = new THREE.BoxGeometry(250, 3, 20);
+  var materialBlade2 = new THREE.MeshPhongMaterial( { color:  0xe5f2ff } );
+  var blade2 = new THREE.Mesh( geometryBlade2, materialBlade2 );
+  blade2.position.x = 146;
+  blade2.position.y = 0;
+  blade2.position.z = 0;
+
+  var geometryHandle2 = new THREE.BoxGeometry( 20, 12, 50);
+  var materialHandle2 = new THREE.MeshBasicMaterial( { color: 0x001966 } );
+  var handle2 = new THREE.Mesh( geometryHandle2, materialHandle2 );
+  handle2.position.x = 30;
+  handle2.position.y = 0;
+  handle2.position.z = 0;
 
   sword2 = new THREE.Object3D();
   sword2.position.x = origin.x;
   sword2.position.y = origin.y;
   sword2.position.z = origin.z;
   sword2.add(temp2);
+  sword2.add(blade2);
+  sword2.add(handle2);
 
   sword2.rotation.order = "YZX";
   scene.add( sword2 );
@@ -150,7 +183,6 @@ var pointCameraAtPlayer = function (player) {
     camera.position.y = 0;
     camera.position.x = 300;
     camera.rotation.y = Math.PI/2;
-    camera.lookAt(sword2.position);
   }
 };
 
