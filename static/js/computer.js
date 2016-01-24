@@ -12,7 +12,7 @@ $('#title').css({top: 0, opacity: 0}).
 animate({top: 50, opacity: 1}, 600);
 $('#paragraph').css({top: 0, opacity: 0}).
 animate({top: 50, opacity: 1}, 1000);
-$('#code').css({top: 0, opacity: 0}).
+$('#code').css({top: 50, opacity: 0}).
 animate({top: 50, opacity: 1}, 1500);
 
 /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
