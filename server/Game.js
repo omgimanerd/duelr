@@ -8,6 +8,8 @@ var HashMap = require("hashmap");
 var Constants = require("../shared/Constants");
 var Player = require("./Player");
 
+var normalize = require("vectors/normalize")(2);
+
 /**
  * Constructor for the server side Game class.
  * Instantiates the data structures to track all the objects in the game.
@@ -77,7 +79,18 @@ Game.prototype.attemptRemovePlayer = function(socket) {
 /**
  * Updates the states of all the players in all active games.
  */
-Game.prototype.update = function() {
+Game.prototype.collisionOccurred = function() {
+  var p1Mag = [this.player1.swordRateOfChange.x,
+               this.player1.swordRateOfChange.y,
+               this.player1.swordRateOfChange.z];
+  var p2Mag = [this.player2.swordRateOfChange.x,
+               this.player2.swordRateOfChange.y,
+               this.player2.swordRateOfChange.z];
+  if (p1Mag > p2Mag) {
+    this.player1.loseControl();
+  } else {
+    this.player2.loseControl();
+  }
 };
 
 Game.prototype.sendStateToClients = function() {

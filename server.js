@@ -110,6 +110,11 @@ io.on("connection", function(socket) {
     }
   });
 
+  // Bullshit solution to detecting collisions
+  socket.on("collision", function() {
+    game.collisionOccurred();
+  });
+
   // When a player disconnects, remove them from the game.
   socket.on("disconnect", function() {
     clientManager.remove(clientManager.getUid(socket));
