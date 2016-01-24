@@ -71,7 +71,7 @@ var createWorld = function () {
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
 
-  var geometry = new THREE.BoxGeometry( 10, 100, 10 );
+  var geometry = new THREE.BoxGeometry( 50, 250, 50);
   var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
   sword = new THREE.Mesh( geometry, material );
   sword.position.x = 0;
@@ -103,9 +103,9 @@ var render = function () {
 
 var initializeGame = function () {
   socket.on("server_update", function (data) {
-    console.log(data);
-    sword.rotation.x = data.x * Math.PI/180;
-    sword.rotation.y = data.y * Math.PI/180;
-    sword.rotation.z = data.z * Math.PI/180;
+    console.log(data.player1.swordHeading);
+    sword.rotation.x = (data.player1.swordHeading[0] * Math.PI/180);
+    sword.rotation.y = -(data.player1.swordHeading[1] * Math.PI/180);
+    sword.rotation.z = -(data.player1.swordHeading[2] * Math.PI/180);
   });
 };

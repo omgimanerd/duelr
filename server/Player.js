@@ -28,6 +28,7 @@ Player.prototype.init = function() {
   var context = this;
   this.phoneSocket.on("accel_data", function(data) {
     context.update(data.orientation);
+    console.log(data);
   });
 };
 

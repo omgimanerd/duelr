@@ -148,11 +148,24 @@ try {
   module.exports = Util;
 } catch (err) {}
 
-
+/**
+ * Returns the dot product of two 3D points.
+ * @param x1, y1, z1 the x,y, and z coordinates of the first point.
+ * @param x2, y2, z2 the x,y, and z coordinates of the second point.
+ * @return {number} the dot product
+ */
 Util.dot = function(x1,y1,z1,x2,y2,z2){
   return (x1 * x2 + y1 * y2 + z1 * z2);
 }
 
+/**
+ * Returns the distance between two 3D Lines
+ * @param x1, y1, z1 the x,y, and z coordinates of the beginning point of the first 3D line.
+ * @param x2, y2, z2 the x,y, and z coordinates of the end point of the first 3D line.
+ * @param x3, y3, z3 the x,y, and z coordinates of the beginning point of the second 3D line.
+ * @param x4, y4, z4 the x,y, and z coordinates of the end point of the second 3D line.
+ * @return {number} the (shortest) distance between two 3D lines.
+ */
 Util.getDistanceOfTwoLinesin3D = function(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4) {
   var EPS = 0.00000001;
 
