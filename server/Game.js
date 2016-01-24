@@ -83,14 +83,16 @@ Game.prototype.update = function() {
 Game.prototype.sendStateToClients = function() {
   var payload = {};
   if (this.player1) {
-    payload[this.player1.computerUid] = {
+    payload.player1 = {
+      uid: this.player1.computerUid,
       swordOrigin: this.player1.swordOrigin,
       swordHeading: this.player1.swordHeading,
       swordLength: this.player1.swordLength
     };
   }
   if (this.player2) {
-    payload[this.player2.computerUid] = {
+    payload.player2 = {
+      uid: this.player2.computerUid,
       swordOrigin: this.player2.swordOrigin,
       swordHeading: this.player2.swordHeading,
       swordLength: this.player2.swordLength
