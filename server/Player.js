@@ -19,7 +19,11 @@ function Player(phoneUid, phoneSocket,
   this.lastUpdateTime = 0;
 }
 
-Player.DEFAULT_HEADING = [0, 1, 0];
+Player.DEFAULT_HEADING = {
+  x: 0,
+  y: 0,
+  z: 0
+};
 
 Player.create = function(phoneUid, phoneSocket,
                          computerUid, computerSocket,
@@ -37,11 +41,11 @@ Player.prototype.init = function() {
 };
 
 Player.prototype.update = function(orientation) {
-  this.swordHeading = [
-    orientation.x,
-    orientation.y,
-    orientation.z
-  ];
+  this.swordHeading = {
+    x: orientation.x,
+    y: orientation.y,
+    z: orientation.z
+  };
 };
 
 Player.prototype.hasConnectedSocket = function(socket) {

@@ -18,15 +18,23 @@ function Game(player1, player2, player1ComputerSocket, player2ComputerSocket) {
   this.player2 = player2;
 }
 
-Game.PLAYER1_ORIGIN = [-5, 0, 0];
-Game.PLAYER2_ORIGIN = [5, 0, 0];
+Game.PLAYER1_ORIGIN = {
+  x: -50,
+  y: -25,
+  z: 50
+};
+Game.PLAYER2_ORIGIN = {
+  x: 50,
+  y: -25,
+  z: 50
+};
 
 Game.create = function() {
   return new Game(null, null);
 };
 
 Game.prototype.isFull = function() {
-  return this.player1 != null && this.player2 != null;
+  return this.player1 !== null && this.player2 !== null;
 };
 
 Game.prototype.addPlayer = function(phoneUid, phoneSocket,
@@ -79,14 +87,14 @@ Game.prototype.sendStateToClients = function() {
       swordOrigin: this.player1.swordOrigin,
       swordHeading: this.player1.swordHeading,
       swordLength: this.player1.swordLength
-    }
+    };
   }
   if (this.player2) {
     payload[this.player2.computerUid] = {
       swordOrigin: this.player2.swordOrigin,
       swordHeading: this.player2.swordHeading,
       swordLength: this.player2.swordLength
-    }
+    };
   }
 
   if (this.player1) {
