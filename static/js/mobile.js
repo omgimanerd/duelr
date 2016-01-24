@@ -19,7 +19,7 @@ $("#code-input").keypress(function (e) {
 });
 
 var handleOrientation = function (event) {
-  console.log(event);
+  console.log(Constants.ACCELEROMETER_DATA_SOCKET_TAG);
   socket.emit('test', {
     orientation: {
       x: event.alpha,
