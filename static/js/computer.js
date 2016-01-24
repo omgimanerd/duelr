@@ -154,6 +154,9 @@ var pointCameraAtPlayer = function (player) {
 
 var initializeGame = function () {
   socket.on("server_update", function (data) {
+    if(Math.random() < 0.04) {
+      console.log(data);
+    }
     if (data.player1) {
       if (!sword1) {
         createPlayer1(data.player1.swordOrigin);

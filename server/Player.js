@@ -57,7 +57,7 @@ Player.prototype.update = function(orientation) {
     x: (orientation.x - this.swordHeading.x) / updateTimeDifference,
     y: (orientation.y - this.swordHeading.y) / updateTimeDifference,
     z: (orientation.z - this.swordHeading.z) / updateTimeDifference
-  }
+  };
   if (this.lostControl) {
     this.swordHeading.x -= this.swordRateOfChange.x;
     this.swordHeading.y -= this.swordRateOfChange.y;

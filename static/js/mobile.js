@@ -21,6 +21,7 @@ $("#code-input").keypress(function (e) {
       uid: $(this).val()
     });
   }
+
 });
 
 $("#calibrate-button").click(function (e) {
@@ -37,9 +38,9 @@ var handleOrientation = function (event) {
 	realOrientation.y = event.beta;
 	realOrientation.z = (90 + rawGamma - baseGamma)%180 - 90;
 
-	if(Math.random() < 0.01) {
-		console.log(realOrientation);
-	}
+	// if(Math.random() < 0.01) {
+	// 	console.log(realOrientation);
+	// }
 
 	// console.log("Hi");
 	// console.log(baseOrientation);
