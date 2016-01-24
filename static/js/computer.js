@@ -47,13 +47,11 @@ socket.emit("new-device", {
 });
 
 socket.on('new-device-response', function(data) {
-  console.log(data);
   uid = data.uid;
   animateCode(uid);
 });
 
 socket.on('link-devices-response', function(data) {
-  console.log("anal");
   if (data.success) {
     hideInterface();
     createWorld();
