@@ -143,11 +143,13 @@ var pointCameraAtPlayer = function (player) {
     camera.position.z = 0;
     camera.position.y = 0;
     camera.position.x = -300;
-    camera.lookAt(sword1.position);
+    camera.rotation.y = -Math.PI/2;
+    // camera.lookAt(sword1.position);
   } else {
     camera.position.z = 0;
     camera.position.y = 0;
     camera.position.x = 300;
+    camera.rotation.y = Math.PI/2;
     camera.lookAt(sword2.position);
   }
 };
