@@ -28,16 +28,16 @@ Game.prototype.isFull = function() {
   return this.player1 != null && this.player2 != null;
 };
 
-Game.prototype.addPlayer = function(phoneSocket, computerSocket) {
+Game.prototype.addPlayer = function(phoneUid, phoneSocket, computerSocket) {
   if (this.isFull()) {
     throw new Exception("Game is full! Someone fucked up!");
   }
   if (this.player1) {
-    this.player2 = Player.create(phoneSocket, computerSocket,
+    this.player2 = Player.create(phoneUid, phoneSocket, computerSocket,
                                  Game.PLAYER2_ORIGIN);
     this.player2.init();
   } else {
-    this.player1 = Player.create(phoneSocket, computerSocket,
+    this.player1 = Player.create(phoneUid, phoneSocket, computerSocket,
                                  Game.PLAYER1_ORIGIN);
     this.player1.init();
   }
@@ -70,16 +70,17 @@ Game.prototype.update = function() {
 
 Game.prototype.sendStateToClients = function() {
   var payload = {
-    "player1": this.player1,
-    "player2": this.player2
+    player1: this.player1,
+    player2: this.player2
   };
-  if (this.player1 && this.player2) {
-    try {
-      this.player1.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
-                                            payload);
-      this.player2.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
-                                            payload);
-    } catch (err) {}
+
+  if (this.player1 && this.player1.getComputerSocket()) {
+    this.player1.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
+                                          payload);
+  }
+  if (this.player2 && this.player2.getComputerSocket()) {
+    this.player2.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
+                                          payload);
   }
 };
 
