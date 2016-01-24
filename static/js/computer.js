@@ -6,13 +6,13 @@ var sword;
 var camera;
 
 //Fade in interface
-$('#img').css({top: 0, opacity: 0}).
+$('.img').css({top: 0, opacity: 0}).
 animate({top: 50, opacity: 1}, 600);
-$('#title').css({top: 0, opacity: 0}).
+$('.title').css({top: 0, opacity: 0}).
 animate({top: 50, opacity: 1}, 600);
-$('#paragraph').css({top: 0, opacity: 0}).
+$('.paragraph').css({top: 0, opacity: 0}).
 animate({top: 50, opacity: 1}, 1000);
-$('#code').css({top: 50, opacity: 0}).
+$('.code').css({top: 50, opacity: 0}).
 animate({top: 50, opacity: 1}, 1500);
 
 /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
@@ -75,9 +75,17 @@ var createWorld = function () {
   var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
   sword = new THREE.Mesh( geometry, material );
   sword.position.x = 0;
-  sword.position.y = 0;
-  sword.position.z = 0;
+  sword.position.y = -25;
+  sword.position.z = 50;
   scene.add( sword );
+
+  var geometry = new THREE.BoxGeometry( 50, 250, 50);
+  var material = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
+  sword2 = new THREE.Mesh( geometry, material );
+  sword2.position.x = 0;
+  sword2.position.y = 0;
+  sword2.position.z = -50;
+  scene.add( sword2 );
 
   // create a point light
   var pointLight =
@@ -107,5 +115,8 @@ var initializeGame = function () {
     sword.rotation.x = (data.player1.swordHeading[0] * Math.PI/180);
     sword.rotation.y = -(data.player1.swordHeading[1] * Math.PI/180);
     sword.rotation.z = -(data.player1.swordHeading[2] * Math.PI/180);
+    sword2.rotation.x = (data.player2.swordHeading[0] * Math.PI/180);
+    sword2.rotation.y = -(data.player2.swordHeading[1] * Math.PI/180);
+    sword2.rotation.z = -(data.player2.swordHeading[2] * Math.PI/180);
   });
 };
