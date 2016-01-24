@@ -27,15 +27,18 @@ Player.create = function(phoneUid, phoneSocket, computerSocket, swordOrigin) {
 Player.prototype.init = function() {
   var context = this;
   this.phoneSocket.on("accel_data", function(data) {
+    console.log(data);
     context.update(data.orientation);
     console.log(data);
   });
 };
 
 Player.prototype.update = function(orientation) {
-  this.swordHeading = [orientation.x,
-                       orientation.y,
-                       orientation.z];
+  this.swordHeading = [
+    orientation.x,
+    orientation.y,
+    orientation.z
+  ];
 };
 
 Player.prototype.hasConnectedSocket = function(socket) {

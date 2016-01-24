@@ -144,9 +144,10 @@ Util.choiceArray = function(array) {
   return array[Util.randRangeInt(0, array.length)];
 };
 
-try {
-  module.exports = Util;
-} catch (err) {}
+
+Util.d2r = function(x) {
+  return x * Math.PI / 180;
+};
 
 /**
  * Returns the dot product of two 3D points.
@@ -251,3 +252,7 @@ Util.getDistanceOfTwoLinesin3D = function(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4) {
 
   return Math.sqrt(Util.dot(dPx, dPy, dPz, dPx, dPy, dPz));
 }
+
+try {
+  module.exports = Util;
+} catch (err) {}
