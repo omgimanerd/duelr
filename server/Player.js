@@ -34,9 +34,9 @@ Player.prototype.init = function() {
 
 Player.prototype.update = function(orientation) {
   this.swordHeading = [
-      Math.sin(Util.d2r(orientation.x)) * Math.cos(Util.d2r(orientation.z)),
-      Math.cos(Util.d2r(orientation.x)),
-      Math.sin(Util.d2r(orientation.x)) * Math.sin(Util.d2r(orientation.z))
+    orientation.x,
+    orientation.y,
+    orientation.z
   ];
 };
 
