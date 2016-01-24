@@ -5,6 +5,7 @@
 
 var HashMap = require("hashmap");
 
+var Constants = require("./Constants");
 var Player = require("./Player");
 
 /**
