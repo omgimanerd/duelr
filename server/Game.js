@@ -29,16 +29,19 @@ Game.prototype.isFull = function() {
   return this.player1 != null && this.player2 != null;
 };
 
-Game.prototype.addPlayer = function(phoneUid, phoneSocket, computerSocket) {
+Game.prototype.addPlayer = function(phoneUid, phoneSocket,
+                                    computerUid, computerSocket) {
   if (this.isFull()) {
     throw new Exception("Game is full! Someone fucked up!");
   }
   if (this.player1) {
-    this.player2 = Player.create(phoneUid, phoneSocket, computerSocket,
+    this.player2 = Player.create(phoneUid, phoneSocket,
+                                 computerUid, computerSocket,
                                  Game.PLAYER2_ORIGIN);
     this.player2.init();
   } else {
-    this.player1 = Player.create(phoneUid, phoneSocket, computerSocket,
+    this.player1 = Player.create(phoneUid, phoneSocket,
+                                 computerUid, computerSocket,
                                  Game.PLAYER1_ORIGIN);
     this.player1.init();
   }
@@ -72,14 +75,14 @@ Game.prototype.update = function() {
 Game.prototype.sendStateToClients = function() {
   var payload = {};
   if (this.player1) {
-    payload[this.player1.phoneUid] = {
+    payload[this.player1.computerUid] = {
       swordOrigin: this.player1.swordOrigin,
       swordHeading: this.player1.swordHeading,
       swordLength: this.player1.swordLength
     }
   }
   if (this.player2) {
-    payload[this.player2.phoneUid] = {
+    payload[this.player2.computerUid] = {
       swordOrigin: this.player2.swordOrigin,
       swordHeading: this.player2.swordHeading,
       swordLength: this.player2.swordLength

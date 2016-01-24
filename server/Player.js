@@ -4,10 +4,12 @@
 
 var Constants = require("../shared/Util");
 
-function Player(phoneUid, phoneSocket, computerSocket,
+function Player(phoneUid, phoneSocket,
+                computerUid, computerSocket,
                 swordOrigin, swordHeading, swordLength) {
   this.phoneUid = phoneUid;
   this.phoneSocket = phoneSocket;
+  this.computerUid = computerUid;
   this.computerSocket = computerSocket;
 
   this.swordOrigin = swordOrigin;
@@ -19,8 +21,11 @@ function Player(phoneUid, phoneSocket, computerSocket,
 
 Player.DEFAULT_HEADING = [0, 1, 0];
 
-Player.create = function(phoneUid, phoneSocket, computerSocket, swordOrigin) {
-  return new Player(phoneUid, phoneSocket, computerSocket, swordOrigin,
+Player.create = function(phoneUid, phoneSocket,
+                         computerUid, computerSocket,
+                         swordOrigin) {
+  return new Player(phoneUid, phoneSocket, computerUid, computerSocket,
+                    swordOrigin,
                     Player.DEFAULT_HEADING, Constants.SWORD_LENGTH);
 };
 

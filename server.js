@@ -98,7 +98,7 @@ io.on("connection", function(socket) {
     } else {
       var computerSocket = clientManager.getSocket(uidToConnectTo);
       // addPlayer will initialize the player accordingly.
-      game.addPlayer(uid, socket, computerSocket);
+      game.addPlayer(uid, socket, uidToConnectTo, computerSocket);
       socket.emit("link-devices-response", {
         success: true,
         message: "Successfully linked. Joining game."
