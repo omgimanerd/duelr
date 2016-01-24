@@ -74,40 +74,57 @@ var createWorld = function () {
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
 
-  // create a point light
-  var pointLight =
-    new THREE.PointLight(0xFFFFFF);
+  var pointLight = new THREE.PointLight(0xFFFFFF);
+  pointLight.position.x = 400;
+  pointLight.position.y = 0;
+  pointLight.position.z = 0;
 
-  // set its position
-  pointLight.position.x = 10;
-  pointLight.position.y = 50;
-  pointLight.position.z = 130;
+  var pointLight2 = new THREE.PointLight(0xFFFFFF);
+  pointLight2.position.x = -400;
+  pointLight.position.y = 0;
+  pointLight.position.z = 0;
 
-  // add to the scene
   scene.add(pointLight);
+  scene.add(pointLight2);
 
   console.log ("World created");
 };
 
 var createPlayer1 = function (origin) {
-  var geometry = new THREE.BoxGeometry( 50, 250, 50);
+  var geometry = new THREE.BoxGeometry(250, 10, 30);
   var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
-  sword1 = new THREE.Mesh( geometry, material );
+  var temp = new THREE.Mesh( geometry, material );
+  temp.position.x = 125;
+  temp.position.y = 0;
+  temp.position.z = 0;
+
+  sword1 = new THREE.Object3D();
   sword1.position.x = origin.x;
   sword1.position.y = origin.y;
   sword1.position.z = origin.z;
+  sword1.add(temp);
+
+  sword1.rotation.order = "YZX";
   scene.add( sword1 );
   console.log("Created player 1");
   console.log(sword1);
 };
 
 var createPlayer2 = function (origin) {
-  var geometry = new THREE.BoxGeometry( 50, 250, 50);
+  var geometry = new THREE.BoxGeometry(250, 10, 30);
   var material = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
-  sword2 = new THREE.Mesh( geometry, material );
+  var temp2 = new THREE.Mesh( geometry, material );
+  temp2.position.x = 125;
+  temp2.position.y = 0;
+  temp2.position.z = 0;
+
+  sword2 = new THREE.Object3D();
   sword2.position.x = origin.x;
   sword2.position.y = origin.y;
   sword2.position.z = origin.z;
+  sword2.add(temp2);
+
+  sword2.rotation.order = "YZX";
   scene.add( sword2 );
   console.log("Created player 2");
   console.log(sword2);
@@ -121,24 +138,45 @@ var render = function () {
   renderer.render( scene, camera );
 };
 
+var pointCameraAtPlayer = function (player) {
+  if (player === 1) {
+    camera.position.z = 0;
+    camera.position.y = 0;
+    camera.position.x = -300;
+    camera.lookAt(sword1.position);
+  } else {
+    camera.position.z = 0;
+    camera.position.y = 0;
+    camera.position.x = 300;
+    camera.lookAt(sword2.position);
+  }
+};
+
 var initializeGame = function () {
   socket.on("server_update", function (data) {
-    console.log(data.player2);
     if (data.player1) {
       if (!sword1) {
         createPlayer1(data.player1.swordOrigin);
+        console.log(data.player1.uid);
+        console.log(uid);
+        if (data.player1.uid === uid) {
+          pointCameraAtPlayer(1);
+        }
       }
-      sword1.rotation.x = (data.player1.swordHeading.x * Math.PI/180);
-      sword1.rotation.y = -(data.player1.swordHeading.y * Math.PI/180);
-      sword1.rotation.z = -(data.player1.swordHeading.z * Math.PI/180);
+      sword1.rotation.y = (data.player1.swordHeading.x * Math.PI/180);
+      sword1.rotation.z = (data.player1.swordHeading.y * Math.PI/180);
+      sword1.rotation.x = (data.player1.swordHeading.z * Math.PI/180);
     }
     if (data.player2) {
       if (!sword2) {
         createPlayer2(data.player2.swordOrigin);
+        if (data.player2.uid === uid) {
+          pointCameraAtPlayer(2);
+        }
       }
-      sword2.rotation.x = (data.player2.swordHeading.x * Math.PI/180);
-      sword2.rotation.y = -(data.player2.swordHeading.y * Math.PI/180);
-      sword2.rotation.z = -(data.player2.swordHeading.z * Math.PI/180);
+      sword2.rotation.y = (data.player2.swordHeading.x * Math.PI/180);
+      sword2.rotation.z = (data.player2.swordHeading.y * Math.PI/180);
+      sword2.rotation.x = (data.player2.swordHeading.z * Math.PI/180);
     }
   });
 };

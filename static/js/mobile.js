@@ -1,8 +1,9 @@
 var socket = io();
 var uid;
 
-var baseOrientation;
-var rawOrientation;
+var baseGamma;
+var rawGamma;
+var realOrientation = {};
 
 socket.emit("new-device", {
   deviceType: Constants.MOBILE
@@ -20,22 +21,33 @@ $("#code-input").keypress(function (e) {
       uid: $(this).val()
     });
   }
+});
 
+$("#calibrate-button").click(function (e) {
+	e.preventDefault();
+	baseGamma = rawGamma;
 });
 
 var handleOrientation = function (event) {
-	rawOrientation = {
-		x: event.alpha,
-		y: event.beta,
-		z: event.gamma
-	};
-  socket.emit("accel_data", {
-    orientation: {
-      x: event.alpha,
-      y: event.beta,
-      z: event.gamma
-    }
-  });
+	if (!baseGamma) {
+		baseGamma = event.gamma;
+	}
+	rawGamma = event.gamma;
+	realOrientation.x = event.alpha;
+	realOrientation.y = event.beta;
+	realOrientation.z = (90 + rawGamma - baseGamma)%180 - 90;
+
+	if(Math.random() < 0.01) {
+		console.log(realOrientation);
+	}
+
+	// console.log("Hi");
+	// console.log(baseOrientation);
+	// console.log(rawOrientation);
+	// console.log(orientation);
+	socket.emit("accel_data", {
+		orientation: realOrientation
+	});
 };
 
 window.addEventListener("deviceorientation", handleOrientation, true);

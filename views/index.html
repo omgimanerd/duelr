@@ -16,8 +16,13 @@
   <body>
     {% if mobile %}
     <form class="code-input-form">
-      <p>Enter the code you see on your computer.</p>
-      <input class="form-control" id="code-input" type="text" autofocus autocomplete="off" autocapitalize="off">
+      <div class="form-group">
+        <p>Enter the code you see on your computer.</p>
+        <input class="form-control" id="code-input" type="text" autofocus autocomplete="off" autocapitalize="off">
+      </div>
+      <div class="form-group">
+        <button id="calibrate-button" class="btn btn-primary form-control">Calibrate</button>
+      </div>
     </form>
     {% else %}
     <div style="display: hidden" id="welcome-interface">
