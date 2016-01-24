@@ -26,14 +26,12 @@ Player.create = function(phoneUid, phoneSocket, computerSocket, swordOrigin) {
 
 Player.prototype.init = function() {
   var context = this;
-  this.phoneSocket.on(Constants.ACCELEROMETER_DATA_SOCKET_TAG, function(data) {
+  this.phoneSocket.on('test', function(data) {
     context.update(data.orientation);
-    console.log(data.orientation);
   });
 };
 
 Player.prototype.update = function(orientation) {
-  console.log(orientation);
   this.swordHeading = [orientation.x,
                        orientation.y,
                        orientation.z];

@@ -19,14 +19,14 @@ $("#code-input").keypress(function (e) {
 });
 
 var handleOrientation = function (event) {
-	console.log(event);
-	socket.emit(Constants.ACCELEROMETER_DATA_SOCKET_TAG, {
-		orientation: {
-			x: event.alpha,
-			y: event.beta,
-			z: event.gamma
-		}
-	});
+  console.log(event);
+  socket.emit('test', {
+    orientation: {
+      x: event.alpha,
+      y: event.beta,
+      z: event.gamma
+    }
+  });
 };
 
 window.addEventListener("deviceorientation", handleOrientation, true);
