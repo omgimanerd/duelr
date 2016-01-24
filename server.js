@@ -71,6 +71,7 @@ io.on("connection", function(socket) {
   // When a new player joins, the server adds a new player to the game.
   socket.on("new-device", function(data) {
     var uid = clientManager.addClient(socket, data.deviceType);
+    console.log("wtf");
     socket.emit("new-device-response", {
       success: true,
       uid: uid
@@ -90,11 +91,13 @@ io.on("connection", function(socket) {
         success: false,
         message: "You must be a mobile device connecting to a computer!"
       });
+      console.log("You must be a mobile device connecting to a computer!");
     } else if (game.isFull()) {
       socket.emit("link-devices-response", {
         success: false,
         message: "Too many players, try again later."
       });
+      console.log("Too many players, try again later.");
     } else {
       var computerSocket = clientManager.getSocket(uidToConnectTo);
       // addPlayer will initialize the player accordingly.
@@ -103,6 +106,7 @@ io.on("connection", function(socket) {
         success: true,
         message: "Successfully linked. Joining game."
       });
+      console.log("Successfully linked. Joining game.");
     }
   });
 

@@ -1,6 +1,44 @@
 var socket = io();
 var uid;
 
+//Fade in interface
+$('#img').css({top: 0, opacity: 0}).
+animate({top: 50, opacity: 1}, 600);
+$('#title').css({top: 0, opacity: 0}).
+animate({top: 50, opacity: 1}, 600);
+$('#paragraph').css({top: 0, opacity: 0}).
+animate({top: 50, opacity: 1}, 1000);
+$('#code').css({top: 0, opacity: 0}).
+animate({top: 50, opacity: 1}, 1500);
+
+/* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+particlesJS.load('particles-js', 'static/assets/particles.json', function() {
+  console.log('callback - particles.js config loaded');
+});
+
+//Creates cool number effect for the code
+var animateCode = function (code) {
+    var BITS_ID = 'code';
+    var BITS_TEXT = code;
+    var BITS_ANIMATE_INTERVAL = 75.0;
+    var BITS_ANIMATE_DURATION = 5000.0;
+    var bitsTextTicks = 0;
+    var animateBITS_ID = window.setInterval(function() {
+        var len = Math.floor(bitsTextTicks / (BITS_ANIMATE_DURATION / BITS_ANIMATE_INTERVAL) * 10);
+        var text = BITS_TEXT;
+        console.log(text);
+        for (i = len; i < 6; i++) {
+            text = text.substr(0, i) + (Math.random() > 0.5 ? '1' : '0') + text.substr(i + 1);
+        }
+        document.getElementById(BITS_ID).innerHTML = text;
+        bitsTextTicks++;
+    }, BITS_ANIMATE_INTERVAL);
+    window.setTimeout(function() {
+        window.clearInterval(animateBITS_ID);
+        document.getElementById(BITS_ID).innerHTML = BITS_TEXT;
+    }, BITS_ANIMATE_DURATION);
+};
+
 socket.emit("new-device", {
   deviceType: Constants.COMPUTER
 });
@@ -8,7 +46,7 @@ socket.emit("new-device", {
 socket.on('new-device-response', function(data) {
   console.log(data);
   uid = data.uid;
-  $("#code").text(uid);
+  animateCode(uid);
 });
 
 var scene = new THREE.Scene();
@@ -57,8 +95,8 @@ camera.position.z = 300;
 // console.log("wtf");
 // window.addEventListener("deviceorientation", handleOrientation, true);
 
-function render() {
+var render = function () {
 	requestAnimationFrame( render );
 	renderer.render( scene, camera );
-}
+};
 render();
