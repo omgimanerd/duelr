@@ -26,7 +26,6 @@ var animateCode = function (code) {
     var animateBITS_ID = window.setInterval(function() {
         var len = Math.floor(bitsTextTicks / (BITS_ANIMATE_DURATION / BITS_ANIMATE_INTERVAL) * 10);
         var text = BITS_TEXT;
-        console.log(text);
         for (i = len; i < 6; i++) {
             text = text.substr(0, i) + (Math.random() > 0.5 ? '1' : '0') + text.substr(i + 1);
         }
@@ -78,22 +77,12 @@ scene.add(pointLight);
 
 camera.position.z = 300;
 
-// var handleOrientation = function (event) {
-// 	console.log(event);
-// 	socket.emit("phone-accel", {
-// 		uid: "a",
-// 		accel:
-// 	});
-// };
-
-// socket.on("accel-data", function (data) {
-// 	sword.rotation.x = data.alpha * Math.PI/180;
-// 	sword.rotation.y = data.beta * Math.PI/180;
-// 	sword.rotation.z = data.gamma * Math.PI/180;
-// });
-
-// console.log("wtf");
-// window.addEventListener("deviceorientation", handleOrientation, true);
+socket.on(Constants.SERVER_TO_CLIENT_SOCKET_TAG, function (data) {
+  console.log(data);
+  // sword.rotation.x = data.x * Math.PI/180;
+  // sword.rotation.y = data.y * Math.PI/180;
+  // sword.rotation.z = data.z * Math.PI/180;
+});
 
 var render = function () {
   requestAnimationFrame( render );

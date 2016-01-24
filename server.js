@@ -18,7 +18,7 @@ process.argv.forEach(function(value, index, array) {
 // Dependencies.
 var express = require("express");
 var http = require("http");
-var MobileDetect = require('mobile-detect')
+var MobileDetect = require('mobile-detect');
 var morgan = require("morgan");
 var socketIO = require("socket.io");
 var swig = require("swig");
