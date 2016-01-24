@@ -27,7 +27,6 @@ Util.generateUID = function(length) {
     length = 32;
   }
   var choice = 'abcdefghijklmnopqrstuvwxyz' +
-               'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
                '1234567890';
   var uid = '';
   for (var i = 0; i < length; ++i) {
@@ -198,7 +197,7 @@ Util.getDistanceOfTwoLinesin3D = function(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4) {
       tD = c;
     }
   }
- 
+
   if (tN < 0.0) {
     tN = 0.0;
     if (-d < 0.0){
@@ -222,7 +221,7 @@ Util.getDistanceOfTwoLinesin3D = function(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4) {
     }
   }
 
-  if (Math.abs(sN) < EPS) { 
+  if (Math.abs(sN) < EPS) {
     sc = 0.0;
   } else {
     sc = sN / sD;
@@ -237,6 +236,6 @@ Util.getDistanceOfTwoLinesin3D = function(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4) {
   var dPx = delta13x + (sc * delta21x) - (tc * delta43x);
   var dPy = delta13y + (sc * delta21y) - (tc * delta43y);
   var dPz = delta13z + (sc * delta21z) - (tc * delta43z);
- 
+
   return Math.sqrt(Util.dot(dPx, dPy, dPz, dPx, dPy, dPz));
 }

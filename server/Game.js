@@ -74,10 +74,12 @@ Game.prototype.sendStateToClients = function() {
     "player2": this.player2
   };
   if (this.player1 && this.player2) {
-    this.player1.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
-                                          payload);
-    this.player2.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
-                                          payload);
+    try {
+      this.player1.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
+                                            payload);
+      this.player2.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
+                                            payload);
+    } catch (err) {}
   }
 };
 

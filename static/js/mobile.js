@@ -11,10 +11,9 @@ socket.on('new-device-response', function(data) {
 });
 
 $("#code-input").keypress(function (e) {
-	if (e.which === 13) {
-		socket.emit("link-devices", {
-			phoneDeviceUid: uid,
-			computerUid: $(this).text()
-		});
-	}
+  if (e.which === 13) {
+    socket.emit("link-devices", {
+      uid: $(this).val()
+    });
+  }
 });

@@ -96,7 +96,7 @@ camera.position.z = 300;
 // window.addEventListener("deviceorientation", handleOrientation, true);
 
 var render = function () {
-	requestAnimationFrame( render );
-	renderer.render( scene, camera );
+  requestAnimationFrame( render );
+  renderer.render( scene, camera );
 };
 render();
