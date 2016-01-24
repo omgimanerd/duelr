@@ -34,6 +34,9 @@ Player.prototype.init = function() {
 Player.prototype.update = function(orientation) {
   // TODO
   console.log(orientation);
+  this.swordHeading = [orientation.x,
+                       orientation.y,
+                       orientation.z];
 };
 
 Player.prototype.hasConnectedSocket = function(socket) {
