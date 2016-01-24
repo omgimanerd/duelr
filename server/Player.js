@@ -69,7 +69,7 @@ Player.prototype.update = function(orientation) {
       z: orientation.z
     };
   }
-  this.lostControl = currentTime > this.lastLostControlTime +
+  this.lostControl = currentTime < this.lastLostControlTime +
       Player.REGAIN_CONTROL_TIME;
 };
 
