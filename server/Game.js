@@ -91,11 +91,11 @@ Game.prototype.sendStateToClients = function() {
   }
 
   if (this.player1) {
-    this.player1.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
+    this.player1.getComputerSocket().emit("server_update",
                                           payload);
   }
   if (this.player2) {
-    this.player2.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
+    this.player2.getComputerSocket().emit("server_update",
                                           payload);
   }
 };

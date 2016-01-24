@@ -104,7 +104,7 @@ var render = function () {
 };
 
 var initializeGame = function () {
-  socket.on(window.Constants.SERVER_TO_CLIENT_SOCKET_TAG, function (data) {
+  socket.on("server_update", function (data) {
     console.log(data);
     sword.rotation.x = data.x * Math.PI/180;
     sword.rotation.y = data.y * Math.PI/180;

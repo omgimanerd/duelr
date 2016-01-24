@@ -26,7 +26,7 @@ Player.create = function(phoneUid, phoneSocket, computerSocket, swordOrigin) {
 
 Player.prototype.init = function() {
   var context = this;
-  this.phoneSocket.on('test', function(data) {
+  this.phoneSocket.on("accel_data", function(data) {
     context.update(data.orientation);
   });
 };
