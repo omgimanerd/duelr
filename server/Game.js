@@ -5,7 +5,7 @@
 
 var HashMap = require("hashmap");
 
-var Constants = require("./Constants");
+var Constants = require("../shared/Constants");
 var Player = require("./Player");
 
 /**
@@ -13,9 +13,11 @@ var Player = require("./Player");
  * Instantiates the data structures to track all the objects in the game.
  * @constructor
  */
-function Game(player1, player2) {
+function Game(player1, player2, player1ComputerSocket, player2ComputerSocket) {
   this.player1 = player1;
   this.player2 = player2;
+  this.player1ComputerSocket = player1ComputerSocket;
+  this.player2ComputerSocket = player2ComputerSocket;
 }
 
 Game.PLAYER1_ORIGIN = [-5, 0, 0];
@@ -36,10 +38,12 @@ Game.prototype.addPlayer = function(phoneUid, phoneSocket, computerSocket) {
   if (this.player1) {
     this.player2 = Player.create(phoneUid, phoneSocket, computerSocket,
                                  Game.PLAYER2_ORIGIN);
+    this.player2ComputerSocket = computerSocket;
     this.player2.init();
   } else {
     this.player1 = Player.create(phoneUid, phoneSocket, computerSocket,
                                  Game.PLAYER1_ORIGIN);
+    this.player1ComputerSocket = computerSocket
     this.player1.init();
   }
 };
@@ -70,16 +74,27 @@ Game.prototype.update = function() {
 };
 
 Game.prototype.sendStateToClients = function() {
-  var payload = {
-    player1: this.player1,
-    player2: this.player2
-  };
+  var payload = {};
+  if (this.player1) {
+    payload.player1 = {
+      swordOrigin: this.player1.swordOrigin,
+      swordHeading: this.player1.swordHeading,
+      swordLength: this.player1.swordLength
+    }
+  }
+  if (this.player2) {
+    payload.player2 = {
+      swordOrigin: this.player2.swordOrigin,
+      swordHeading: this.player2.swordHeading,
+      swordLength: this.player2.swordLength
+    }
+  }
 
-  if (this.player1 && this.player1.getComputerSocket()) {
+  if (this.player1) {
     this.player1.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
                                           payload);
   }
-  if (this.player2 && this.player2.getComputerSocket()) {
+  if (this.player2) {
     this.player2.getComputerSocket().emit(Constants.SERVER_TO_CLIENT_SOCKET_TAG,
                                           payload);
   }

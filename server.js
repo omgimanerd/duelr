@@ -106,6 +106,10 @@ io.on("connection", function(socket) {
     }
   });
 
+  socket.on(Constants.ACCELEROMETER_DATA_SOCKET_TAG, function(data) {
+    console.log(data);
+  });
+
   // When a player disconnects, remove them from the game.
   socket.on("disconnect", function() {
     clientManager.remove(clientManager.getUid(socket));
