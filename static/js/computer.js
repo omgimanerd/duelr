@@ -1,5 +1,6 @@
 var socket = io();
 var uid;
+var renderer;
 
 //Fade in interface
 $('#img').css({top: 0, opacity: 0}).
@@ -48,44 +49,57 @@ socket.on('new-device-response', function(data) {
   animateCode(uid);
 });
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
-
-var geometry = new THREE.BoxGeometry( 10, 100, 10 );
-var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
-var sword = new THREE.Mesh( geometry, material );
-sword.position.x = 0;
-sword.position.y = 0;
-sword.position.z = 0;
-scene.add( sword );
-
-// create a point light
-var pointLight =
-  new THREE.PointLight(0xFFFFFF, 1, 1000);
-
-// set its position
-pointLight.position.x = 10;
-pointLight.position.y = 50;
-pointLight.position.z = 130;
-
-// add to the scene
-scene.add(pointLight);
-
-camera.position.z = 300;
-
-socket.on(Constants.SERVER_TO_CLIENT_SOCKET_TAG, function (data) {
-  console.log(data);
-  // sword.rotation.x = data.x * Math.PI/180;
-  // sword.rotation.y = data.y * Math.PI/180;
-  // sword.rotation.z = data.z * Math.PI/180;
+socket.on('link-devices-response', function(data) {
+  console.log("anal");
+  if (data.success) {
+    createWorld();
+    initializeGame();
+  }
 });
+
+var createWorld = function () {
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  document.body.appendChild( renderer.domElement );
+
+  var geometry = new THREE.BoxGeometry( 10, 100, 10 );
+  var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+  var sword = new THREE.Mesh( geometry, material );
+  sword.position.x = 0;
+  sword.position.y = 0;
+  sword.position.z = 0;
+  scene.add( sword );
+
+  // create a point light
+  var pointLight =
+    new THREE.PointLight(0xFFFFFF, 1, 1000);
+
+  // set its position
+  pointLight.position.x = 10;
+  pointLight.position.y = 50;
+  pointLight.position.z = 130;
+
+  // add to the scene
+  scene.add(pointLight);
+
+  camera.position.z = 300;
+
+  render();
+};
 
 var render = function () {
   requestAnimationFrame( render );
   renderer.render( scene, camera );
 };
-render();
+
+var initializeGame = function () {
+  socket.on(window.Constants.SERVER_TO_CLIENT_SOCKET_TAG, function (data) {
+    console.log(data);
+    // sword.rotation.x = data.x * Math.PI/180;
+    // sword.rotation.y = data.y * Math.PI/180;
+    // sword.rotation.z = data.z * Math.PI/180;
+  });
+};
