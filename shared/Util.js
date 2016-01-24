@@ -5,7 +5,7 @@
  */
 
 try {
-  var Constants = require('./Constants');
+  var Constants = require("./Constants");
 } catch (err) {}
 
 /**
@@ -13,7 +13,7 @@ try {
  * @constructor
  */
 function Util() {
-  throw new Error('Util should not be instantiated!');
+  throw new Error("Util should not be instantiated!");
 };
 
 /**
@@ -26,9 +26,8 @@ Util.generateUID = function(length) {
   if (!length) {
     length = 32;
   }
-  var choice = 'abcdefghijklmnopqrstuvwxyz' +
-               '1234567890';
-  var uid = '';
+  var choice = "abcdefghijklmnopqrstuvwxyz";
+  var uid = "";
   for (var i = 0; i < length; ++i) {
     uid += choice.charAt(Math.floor(Math.random() * choice.length));
   }

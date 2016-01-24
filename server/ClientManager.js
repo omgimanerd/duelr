@@ -22,7 +22,7 @@ function ClientManager() {
 /**
  * The length of the UID to generate for each connected socket.
  */
-ClientManager.UID_LENGTH = 6;
+ClientManager.UID_LENGTH = 4;
 
 /**
  * Factory method for a ClientManager class.
