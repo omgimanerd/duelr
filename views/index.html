@@ -18,19 +18,21 @@
     <p>Enter the code you see on your computer.</p>
     <input class="form-control" id="code-input" type="text" autofocus>
     {% else %}
-    <div id="particles-js"></div>
-    <div class="opening">
-      <div class="img">
-        <img src="/static/assets/icon.jpg">
-      </div>
-      <div class="title">
-        Duelr
-      </div>
-      <div class="paragraph">
-      <p>In order to play, go to duelr.com on your mobile smartphone and enter the code below:</p>
-      </div>
-      <div class="code" id="code">
-        123456
+    <div id="welcome-interface">
+      <div id="particles-js"></div>
+      <div class="opening">
+        <div class="img">
+          <img src="/static/assets/icon.jpg">
+        </div>
+        <div class="title">
+          Duelr
+        </div>
+        <div class="paragraph">
+        <p>In order to play, go to duelr.com on your mobile smartphone and enter the code below:</p>
+        </div>
+        <div class="code" id="code">
+          123456
+        </div>
       </div>
     </div>
     {% endif %}

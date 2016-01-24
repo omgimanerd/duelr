@@ -1,6 +1,9 @@
 var socket = io();
 var uid;
 var renderer;
+var scene;
+var sword;
+var camera;
 
 //Fade in interface
 $('#img').css({top: 0, opacity: 0}).
@@ -27,7 +30,7 @@ var animateCode = function (code) {
     var animateBITS_ID = window.setInterval(function() {
         var len = Math.floor(bitsTextTicks / (BITS_ANIMATE_DURATION / BITS_ANIMATE_INTERVAL) * 10);
         var text = BITS_TEXT;
-        for (i = len; i < 6; i++) {
+        for (i = len; i < 4; i++) {
             text = text.substr(0, i) + (Math.random() > 0.5 ? '1' : '0') + text.substr(i + 1);
         }
         document.getElementById(BITS_ID).innerHTML = text;
@@ -52,14 +55,19 @@ socket.on('new-device-response', function(data) {
 socket.on('link-devices-response', function(data) {
   console.log("anal");
   if (data.success) {
+    hideInterface();
     createWorld();
     initializeGame();
   }
 });
 
+var hideInterface = function () {
+  $("#welcome-interface").remove();
+};
+
 var createWorld = function () {
-  var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight );
@@ -67,7 +75,7 @@ var createWorld = function () {
 
   var geometry = new THREE.BoxGeometry( 10, 100, 10 );
   var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
-  var sword = new THREE.Mesh( geometry, material );
+  sword = new THREE.Mesh( geometry, material );
   sword.position.x = 0;
   sword.position.y = 0;
   sword.position.z = 0;
@@ -98,8 +106,8 @@ var render = function () {
 var initializeGame = function () {
   socket.on(window.Constants.SERVER_TO_CLIENT_SOCKET_TAG, function (data) {
     console.log(data);
-    // sword.rotation.x = data.x * Math.PI/180;
-    // sword.rotation.y = data.y * Math.PI/180;
-    // sword.rotation.z = data.z * Math.PI/180;
+    sword.rotation.x = data.x * Math.PI/180;
+    sword.rotation.y = data.y * Math.PI/180;
+    sword.rotation.z = data.z * Math.PI/180;
   });
 };

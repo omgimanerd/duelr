@@ -28,6 +28,7 @@ Player.prototype.init = function() {
   var context = this;
   this.phoneSocket.on(Constants.ACCELEROMETER_DATA_SOCKET_TAG, function(data) {
     context.update(data.orientation);
+    console.log(data.orientation);
   });
 };
 
