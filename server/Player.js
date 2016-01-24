@@ -27,14 +27,17 @@ Player.create = function(phoneUid, phoneSocket, computerSocket, swordOrigin) {
 Player.prototype.init = function() {
   var context = this;
   this.phoneSocket.on("accel_data", function(data) {
+    console.log(data);
     context.update(data.orientation);
   });
 };
 
 Player.prototype.update = function(orientation) {
-  this.swordHeading = [orientation.x,
-                       orientation.y,
-                       orientation.z];
+  this.swordHeading = [
+      Math.sin(Util.d2r(orientation.x)) * Math.cos(Util.d2r(orientation.z)),
+      Math.cos(Util.d2r(orientation.x)),
+      Math.sin(Util.d2r(orientation.x)) * Math.sin(Util.d2r(orientation.z))
+  ];
 };
 
 Player.prototype.hasConnectedSocket = function(socket) {
