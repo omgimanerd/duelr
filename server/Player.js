@@ -15,9 +15,18 @@ function Player(phoneUid, phoneSocket,
   this.swordOrigin = swordOrigin;
   this.swordHeading = swordHeading;
   this.swordLength = swordLength;
+  this.swordRateOfChange = {
+    x: 0,
+    y: 0,
+    z: 0
+  };
+  this.lostControl = false;
 
-  this.lastUpdateTime = 0;
+  this.lastUpdateTime = (new Date()).getTime();
+  this.lastLostControlTime = 0;
 }
+
+Player.REGAIN_CONTROL_TIME = 1000;
 
 Player.DEFAULT_HEADING = {
   x: 0,
@@ -41,11 +50,32 @@ Player.prototype.init = function() {
 };
 
 Player.prototype.update = function(orientation) {
-  this.swordHeading = {
-    x: orientation.x,
-    y: orientation.y,
-    z: orientation.z
-  };
+  var currentTime = (new Date()).getTime();
+  var updateTimeDifference = currentTime - this.lastUpdateTime;
+  this.lastUpdateTime = currentTime;
+  this.swordRateOfChange = {
+    x: (orientation.x - this.swordHeading.x) / updateTimeDifference,
+    y: (orientation.y - this.swordHeading.y) / updateTimeDifference,
+    z: (orientation.z - this.swordHeading.z) / updateTimeDifference
+  }
+  if (this.lostControl) {
+    this.swordHeading.x -= this.swordRateOfChange.x;
+    this.swordHeading.y -= this.swordRateOfChange.y;
+    this.swordHeading.z -= this.swordRateOfChange.z;
+  } else {
+    this.swordHeading = {
+      x: orientation.x,
+      y: orientation.y,
+      z: orientation.z
+    };
+  }
+  this.lostControl = currentTime > this.lastLostControlTime +
+      Player.REGAIN_CONTROL_TIME;
+};
+
+Player.prototype.loseControl = function() {
+  this.lastLostControlTime = (new Date()).getTime();
+  this.lostControl = true;
 };
 
 Player.prototype.hasConnectedSocket = function(socket) {
