@@ -103,11 +103,11 @@ io.on("connection", function(socket) {
         success: true,
         message: "Successfully linked. Joining game."
       });
+      computerSocket.emit("link-devices-response", {
+        success: true,
+        message: "Successfully linked. Joining game."
+      });
     }
-  });
-
-  socket.on(Constants.ACCELEROMETER_DATA_SOCKET_TAG, function(data) {
-    console.log(data);
   });
 
   // When a player disconnects, remove them from the game.
