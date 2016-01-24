@@ -87,9 +87,9 @@ Game.prototype.collisionOccurred = function() {
                this.player2.swordRateOfChange.y,
                this.player2.swordRateOfChange.z];
   if (p1Mag > p2Mag) {
-    this.player1.loseControl();
+    this.player1.loseControl(this.player2.swordRateOfChange);
   } else {
-    this.player2.loseControl();
+    this.player2.loseControl(this.player1.swordRateOfChange);
   }
 };
 
