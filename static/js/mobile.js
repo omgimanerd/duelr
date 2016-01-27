@@ -18,6 +18,15 @@ socket.on('new-device-response', function(data) {
   uid = data.uid;
 });
 
+$("#code-submit").click(function (e) {
+  e.preventDefault();
+    socket.emit("link-devices", {
+      uid: $("#code-input").val()
+    });
+    $("#code-input").hide();
+    $(this).hide();
+});
+
 $("#code-input").keypress(function (e) {
   if (e.which === 13) {
   e.preventDefault();
@@ -25,6 +34,7 @@ $("#code-input").keypress(function (e) {
       uid: $(this).val()
     });
     $(this).hide();
+    $("#code-submit").hide();
   }
 });
 
