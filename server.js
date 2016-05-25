@@ -58,6 +58,10 @@ app.get("/", function(request, response) {
   });
 });
 
+app.get("/favicon.ico", function(request, response) {
+  res.send("filler");
+}
+
 app.get('/game', function(request, response) {
   response.render('game.html', {
     dev_mode: DEV_MODE
