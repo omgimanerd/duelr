@@ -1,4 +1,4 @@
-# Duelr
+# Duelr - PennApps 2016
 
 # Technical:
   - Made with NodeJS and Socket.IO
