@@ -1,5 +1,8 @@
 # Duelr - PennApps 2016
 
+This project is a sword fighting game in which you connect your phone to your computer and control your
+sword using your phone to duel other players.
+
 # Technical:
   - Made with NodeJS and Socket.IO
   - The states of all the objects are all instantiated, updated, and managed
